@@ -513,7 +513,7 @@ For this case there are more sub-cases to consider.
 
 #let P     = $"if" b "then" P$
 == Case #P
-// TODO: consider to avoid the false case
+// TODO: consider avoiding the false case
 For this case there are two sub-cases to consider.
 
 #let P1    = $P'$

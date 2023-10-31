@@ -2,7 +2,6 @@
 
 #show heading.where(level: 2): it => {
   v(0.5em)
-  set text(size: 13pt)
   box(inset: 1em, stroke: 0.5pt, it.body)
   v(0.5pt)
 }

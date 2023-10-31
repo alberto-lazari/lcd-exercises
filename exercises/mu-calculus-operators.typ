@@ -1,7 +1,7 @@
 #import "/common.typ": *
 
 = Exercise G
-== Inv
+== Invariant
 #box(stroke: 0.5pt, inset: 0.75em, width: 100%, [
   #lesson(13, page: 8)
 

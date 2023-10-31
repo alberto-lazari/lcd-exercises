@@ -47,3 +47,4 @@
 #pagebreak()
 
 #include "exercises/ccs-vp.typ"
+#include "exercises/mu-calculus-operators.typ"

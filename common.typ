@@ -11,6 +11,7 @@
   [\# Lesson #number -- page #page]
 }
 
+// CCS stuff
 #let ccs(..elements) = {
   let exp = $space$
 
@@ -69,3 +70,15 @@
 #let tt = $sans("true")$
 #let ff = $sans("false")$
 #let deadlock = $Ø$
+
+
+// Mu-calculus stuff
+#let inv(exp: $phi$) = $"Inv"(exp)$
+#let boxed(exp: $"Act"$) = $[exp] space$
+#let new(var: $X$) = $nu var. space$
+#let reaches = $->^(space.quad *)$
+
+#let satisfies = $tack.r.double$
+
+#let s1 = $s_1$
+#let s2 = $s_2$

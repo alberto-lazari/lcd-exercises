@@ -73,12 +73,14 @@
 
 
 // Mu-calculus stuff
-#let inv(exp: $phi$) = $"Inv"(exp)$
-#let boxed(exp: $"Act"$) = $[exp] space$
-#let new(var: $X$) = $nu var. space$
-#let reaches = $->^(space.quad *)$
+#let inv(exp) = $"Inv"(exp)$
+#let boxed(exp) = $[exp] space$
+#let new(var) = $nu var. space$
+#let reaches = $to(wide *)$
+#let semantic(..elements) = ccs(..elements)
 
 #let satisfies = $tack.r.double$
 
-#let s1 = $s_1$
-#let s2 = $s_2$
+#let s1 = $S_1$
+#let s2 = $S_2$
+#let Act = $"Act"$

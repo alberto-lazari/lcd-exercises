@@ -21,7 +21,7 @@
 
   #[
     #set par(first-line-indent: 5em, hanging-indent: 5em)
-    $inv(phi)           &=          new(X) (phi and boxed(Act) X) \ \
+    $"Inv"(phi)           &=          new(X) (phi and boxed(Act) X) \ \
     "let" #h(6.8em) s1  &= semantic(new(X) (phi and boxed(Act) X))$
   ]
 
@@ -50,12 +50,9 @@ Let's introduce some definitions first:
 
 - $s1 = semantic(new(X) (phi and boxed(Act) X)) = "Fix"(f_phi)$
 
-// Note that $P in s2 ==> P satisfies phi$, in fact:
-// $ s2 subset.eq { P | P to(0) P quad P satisfies phi } $
-
 === $s1 subset.eq s2$
-By induction on the number of steps $n$: \
-$P in s1 ==> P to(n) P' ==> P' in s1$
+By induction on the number of steps $n$:
+$ P in s1 ==> P to(n) P' ==> P' in s1 $
 
 #line(length: 100%)
 ==== $n = 0$
@@ -65,9 +62,11 @@ $P in s1 ==> P' in s1$
 
 ==== $n = k + 1$
 *Assuming:*
-- $P in s1$
+#pi-enum[
++ $P in s1$
 
-- $P to(k + 1) P'' ==> P' to(1) P''$
++ $P to(k + 1) P'' ==> P' to(1) P''$
+]
 By inductive hypothesis, $P in s1 ==> P to(k) P' ==> P' in s1$
 
 *To prove:* $P' in s1 ==> P' to(1) P'' ==> P'' in s1$
@@ -81,8 +80,8 @@ $P' to(1) P'' ==> exists alpha in Act. space P' to(alpha) P''$
 
 $
   cases(reverse: #true,
-    P' in boxed(Act) s1 \
-    exists alpha in Act. space P' to(alpha) P''
+    P' in boxed(Act) s1,
+    exists alpha in Act. space P' to(alpha) P'',
   ) ==> P'' in s1
 $
 
@@ -121,3 +120,38 @@ $==> f_phi (s2) = s2$
 
 $s2 "fixpoint of" f_phi ==> s2 subset.eq "Fix"(f_phi) = s1 ==> s2 subset.eq s1$
 #align(right, $qed$)
+
+
+#pagebreak()
+
+== Until (strong)
+#let until-definition = $mu X. space (psi or (phi and diamond(Act) upright("T") and boxed(Act) X))$
+#box(stroke: 0.5pt, inset: 0.75em, width: 100%, [
+  #underline(smallcaps("Exercise")) : #h(.2em) We defined
+
+  #[
+    #set par(first-line-indent: 5em, hanging-indent: 5em)
+    $"Until"(phi, psi) = phi until psi = #until-definition$
+
+    $"let" #h(.9em) s1 = semantic(#until-definition)$
+  ]
+
+  The set of processes for which $phi until psi$ is satisfied can be directly expressed as
+
+  $#h(7em) s2 = { & P | forall P reaches P'. space (
+    P' satisfies phi and ( \
+      & ( forall alpha in Act. space exists P' to(alpha) P''. space P'' satisfies psi ) or \
+      & forall P' reaches P''. space P'' satisfies phi
+    )
+  ) }$
+
+  Are they really the same?
+  #[
+    #set par(first-line-indent: 7em, hanging-indent: 7em)
+    $s1 =^? s2$
+
+    $-> s1 subset.eq s2 : quad s2 "is a fixpoint of" f_phi$
+
+    $-> s2 subset.eq s1 : quad$_induction on the number of steps?_
+  ]
+])

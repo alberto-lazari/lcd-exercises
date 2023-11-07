@@ -73,13 +73,14 @@
 
 
 // Mu-calculus stuff
-#let inv(exp) = $"Inv"(exp)$
 #let boxed(exp) = $[exp] space$
+#let diamond(exp) = $angle.l exp angle.r space$
 #let new(var) = $nu var. space$
 #let reaches = $to(wide *)$
 #let semantic(..elements) = ccs(..elements)
 
 #let satisfies = $tack.r.double$
+#let until = $space cal(U) space$
 
 #let s1 = $S_1$
 #let s2 = $S_2$

@@ -124,10 +124,13 @@ $s2 "fixpoint of" f_phi ==> s2 subset.eq "Fix"(f_phi) = s1 ==> s2 subset.eq s1$
 
 #pagebreak()
 
+
 == Until (strong)
+Let $semantic(#h(0em) "Even"(psi)) = { P | forall P'. space exists P''. space ( P reaches P' reaches P'' or P reaches P'' reaches P' ) ==> P'' satisfies psi }$
+
 #let until-definition = $mu X. space (psi or (phi and diamond(Act) upright("T") and boxed(Act) X))$
 #box(stroke: 0.5pt, inset: 0.75em, width: 100%, [
-  #underline(smallcaps("Exercise")) : #h(.2em) We defined
+  #underline(smallcaps("Exercise")) : #h(.2em) Let's define
 
   #[
     #set par(first-line-indent: 5em, hanging-indent: 5em)
@@ -138,12 +141,12 @@ $s2 "fixpoint of" f_phi ==> s2 subset.eq "Fix"(f_phi) = s1 ==> s2 subset.eq s1$
 
   The set of processes for which $phi until psi$ is satisfied can be directly expressed as
 
-  $#h(7em) s2 = { & P | forall P reaches P'. space (
-    P' satisfies phi and ( \
-      & ( forall alpha in Act. space exists P' to(alpha) P''. space P'' satisfies psi ) or \
-      & forall P' reaches P''. space P'' satisfies phi
-    )
-  ) }$
+  #[
+    #set par(first-line-indent: 7em, hanging-indent: 7em)
+
+    $s2 = { P | & forall P'. space exists P_psi. space ( P reaches P' reaches P_psi or P reaches P_psi reaches P' ) ==> \
+    & ( P_psi satisfies psi and forall P reaches P_phi to(1) P_psi. space P_phi satisfies phi ) }$
+  ]
 
   Are they really the same?
   #[

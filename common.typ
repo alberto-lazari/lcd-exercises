@@ -81,6 +81,7 @@
 
 #let satisfies = $tack.r.double$
 #let until = $space cal(U) space$
+#let weak = $space cal(W) space$
 
 #let s1 = $S_1$
 #let s2 = $S_2$

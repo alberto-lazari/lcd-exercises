@@ -21,7 +21,7 @@
 
   #[
     #set par(first-line-indent: 5em, hanging-indent: 5em)
-    $"Inv"(phi)           &=          new(X) (phi and boxed(Act) X) \ \
+    $"Inv"(phi)         &=          new(X) (phi and boxed(Act) X) \ \
     "let" #h(6.8em) s1  &= semantic(new(X) (phi and boxed(Act) X))$
   ]
 
@@ -46,7 +46,7 @@ Let's introduce some definitions first:
 
 - Let $eta(phi) = { P | P satisfies phi }$
 
-- Let $boxed(Act) S = { P | forall alpha in Act. space P to(alpha) P' ==> P' in S }$
+- Let $boxed(Act) S = { P | forall alpha in Act st P to(alpha) P' ==> P' in S }$
 
 - $s1 = semantic(new(X) (phi and boxed(Act) X)) = "Fix"(f_phi)$
 
@@ -74,14 +74,14 @@ By inductive hypothesis, $P in s1 ==> P to(k) P' ==> P' in s1$
 $P' in s1 ==> P' in f_phi (s1) = semantic(phi and boxed(Act) X)_(eta [x -> s1]) = eta(phi) sect boxed(Act) s1 subset.eq boxed(Act) s1$ \
 $==> P' in boxed(Act) s1$
 
-$boxed(Act) s1 = { Q | forall alpha in Act. space Q to(alpha) Q' ==> Q' in s1 }$
+$boxed(Act) s1 = { Q | forall alpha in Act st Q to(alpha) Q' ==> Q' in s1 }$
 
-$P' to(1) P'' ==> exists alpha in Act. space P' to(alpha) P''$
+$P' to(1) P'' ==> exists alpha in Act st P' to(alpha) P''$
 
 $
   cases(reverse: #true,
     P' in boxed(Act) s1,
-    exists alpha in Act. space P' to(alpha) P'',
+    exists alpha in Act st P' to(alpha) P'',
   ) ==> P'' in s1
 $
 
@@ -91,7 +91,7 @@ $P' in s1 ==> P' in eta(phi) sect boxed(Act) s1 subset.eq eta(phi)$ \
 $==> P' satisfies phi$
 
 $
-  forall n. space P to(n) P' ==> P' satisfies phi quad = quad forall P reaches P'. space P' satisfies phi \
+  forall n st P to(n) P' ==> P' satisfies phi quad = quad forall P reaches P' st P' satisfies phi \
   ==> P in s2
 $
 
@@ -111,7 +111,7 @@ $s2 "is a fixpoint of" f_phi:$
 
 $f_phi (s2) = semantic(phi and boxed(Act) X)_(eta [X -> s2]) = eta(phi) sect boxed(Act) s2$
 
-$boxed(Act) s2 = { P | forall alpha in Act. space P to(alpha) P' ==> P' in s2 }$
+$boxed(Act) s2 = { P | forall alpha in Act st P to(alpha) P' ==> P' in s2 }$
 
 // TODO
 ...
@@ -126,35 +126,35 @@ $s2 "fixpoint of" f_phi ==> s2 subset.eq "Fix"(f_phi) = s1 ==> s2 subset.eq s1$
 
 
 == Until (strong)
-Let $semantic(#h(0em) "Even"(psi)) = { P | forall P'. space exists P''. space ( P reaches P' reaches P'' or P reaches P'' reaches P' ) ==> P'' satisfies psi }$
+- Let $complete(P) = { P_0, P_1, ..., P_n | P = P_0 --> P_1 --> ... --> P_n stuck }$ \
+  be the set of all the complete computations of $P$
+- Let $"Even"(psi) = mu X st (psi or (diamond(Act) upright("T") and boxed(Act) X))$
+- Let $semantic(#h(0em) "Even"(psi)) = { P | forall C in complete(P) st exists P_i in C st P_i satisfies phi }$
 
-#let until-definition = $mu X. space (psi or (phi and diamond(Act) upright("T") and boxed(Act) X))$
-#box(stroke: 0.5pt, inset: 0.75em, width: 100%, [
+#let until-definition = $mu X st (psi or (phi and diamond(Act) upright("T") and boxed(Act) X))$
+#box(stroke: 0.5pt, inset: 0.75em, width: 100%)[
   #underline(smallcaps("Exercise")) : #h(.2em) Let's define
 
-  #[
-    #set par(first-line-indent: 5em, hanging-indent: 5em)
+  #par(first-line-indent: 5em)[
     $"Until"(phi, psi) = phi until psi = #until-definition$
 
-    $"let" #h(.9em) s1 = semantic(#until-definition)$
+    $"let" #h(2.6em) s1 = semantic(#until-definition)$
   ]
 
   The set of processes for which $phi until psi$ is satisfied can be directly expressed as
 
-  #[
-    #set par(first-line-indent: 7em, hanging-indent: 7em)
-
-    $s2 = { P | & forall P'. space exists P_psi. space ( P reaches P' reaches P_psi or P reaches P_psi reaches P' ) ==> \
-    & ( P_psi satisfies psi and forall P reaches P_phi to(1) P_psi. space P_phi satisfies phi ) }$
+  #par(first-line-indent: 8.75em)[
+    $s2 = { P | forall C in complete(P) st
+                  & exists P_i in C st P_i satisfies psi and \
+                  & forall P_j in C, j < i st P_j satisfies phi }$
   ]
 
   Are they really the same?
-  #[
-    #set par(first-line-indent: 7em, hanging-indent: 7em)
+  #par(first-line-indent: 8.75em)[
     $s1 =^? s2$
 
     $-> s1 subset.eq s2 : quad s2 "is a fixpoint of" f_phi$
 
     $-> s2 subset.eq s1 : quad$_induction on the number of steps?_
   ]
-])
+]

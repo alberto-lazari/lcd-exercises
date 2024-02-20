@@ -78,7 +78,9 @@
 #let new(var) = $nu var. space$
 #let reaches = $to(wide *)$
 #let semantic(..elements) = ccs(..elements)
+#let complete(process) = $"CCmp"(process)$
 
+#let st = $. space$
 #let satisfies = $tack.r.double$
 #let until = $space cal(U) space$
 #let weak = $space cal(W) space$

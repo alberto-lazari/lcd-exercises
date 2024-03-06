@@ -126,10 +126,15 @@ $s2 "fixpoint of" f_phi ==> s2 subset.eq "Fix"(f_phi) = s1 ==> s2 subset.eq s1$
 
 
 == Until (strong)
-- Let $complete(P) = { P_0, P_1, ..., P_n | P = P_0 --> P_1 --> ... --> P_n stuck }$ \
-  be the set of all the complete computations of $P$
+
+// See CTr(P) (completed traces) lesson 6, page 4
+- Let $complete(P) : "Proc" -> 2^"CC" quad$ be the set of all the complete computations of $P$ s.t. \
+  $complete(P) = { c in "CC" | P = c_1 }$,
+  where $"CC" = { mat(P_1, P_2, ..., P_n) | P_1 --> P_2 --> ... --> P_n stuck }
+    subset.eq  display(union.big_(n in NN_0)) "Proc"^n$
+  
 - Let $"Even"(psi) = mu X st (psi or (diamond(Act) upright("T") and boxed(Act) X))$
-- Let $semantic(#h(0em) "Even"(psi)) = { P | forall C in complete(P) st exists P_i in C st P_i satisfies phi }$
+- Let $semantic(#h(0em) "Even"(psi)) = { P | forall c in complete(P) st exists i in NN_0 st c_i satisfies phi }$
 
 #let until-definition = $mu X st (psi or (phi and diamond(Act) upright("T") and boxed(Act) X))$
 #box(stroke: 0.5pt, inset: 0.75em, width: 100%)[
@@ -144,9 +149,12 @@ $s2 "fixpoint of" f_phi ==> s2 subset.eq "Fix"(f_phi) = s1 ==> s2 subset.eq s1$
   The set of processes for which $phi until psi$ is satisfied can be directly expressed as
 
   #par(first-line-indent: 8.75em)[
-    $s2 = { P | forall C in complete(P) st
-                  & exists P_i in C st P_i satisfies psi and \
-                  & forall P_j in C, j < i st P_j satisfies phi }$
+    $s2 = { P |
+      forall c in complete(P) st exists i in NN_0 st (
+        c_i satisfies psi and
+        forall j < i st c_j satisfies phi
+      )
+    }$
   ]
 
   Are they really the same?
@@ -155,6 +163,6 @@ $s2 "fixpoint of" f_phi ==> s2 subset.eq "Fix"(f_phi) = s1 ==> s2 subset.eq s1$
 
     $-> s1 subset.eq s2 : quad s2 "is a fixpoint of" f_phi$
 
-    $-> s2 subset.eq s1 : quad$_induction on the number of steps?_
+    $-> s2 subset.eq s1 : quad$by induction on the number $n$ of steps
   ]
 ]

@@ -80,10 +80,12 @@
 #let semantic(..elements) = ccs(..elements)
 #let complete(process) = $"CCmp"(process)$
 
-#let st = $. space$
+#let st = $. thin$
 #let satisfies = $tack.r.double$
 #let until = $space cal(U) space$
 #let weak = $space cal(W) space$
+#let exists = $exists thin$
+#let forall = $forall thin$
 
 #let s1 = $S_1$
 #let s2 = $S_2$

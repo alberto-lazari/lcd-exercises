@@ -27,7 +27,7 @@
     [(ii)],
     [$ccs(P) to(ahat) Q$],
     [$==>$],
-    [$exists space P' st P to(alpha) P' and ccs(P') = Q$],
+    [$exists P' st P to(alpha) P' and ccs(P') = Q$],
   )])
 
   where

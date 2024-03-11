@@ -5,11 +5,13 @@
   box(width: 100%, inset: 0.5em, [$ #prooftree(label: (padding: 1em), spacing: spacing, ..rules) $])
 }
 
-// Comment-style lesson number annotation (# Lesson n – page m)
-#let lesson(page: none, number) = {
+#let comment(c) = {
   set text(gray)
-  [\# Lesson #number -- page #page]
+  par[\# #c]
 }
+
+// Comment-style lesson number annotation (# Lesson n – page m)
+#let lesson(page: none, number) = comment[Lesson #number -- page #page]
 
 // CCS stuff
 #let ccs(..elements) = {
@@ -51,7 +53,6 @@
 #let stuck = $--> #line(start: (-1.3em, 0.7em), angle: -60deg, length: 9pt, stroke: 0.5pt)$
 #let hat(var) = $limits(var)^#text(size: 10pt, $caret$)$
 #let out(var) = $overline(var)$
-#let st = $"s.t."$
 #let ahat = $hat(alpha)$
 #let oahat = $hat(out(alpha))$
 #let oa = $overline(a)$
@@ -77,7 +78,9 @@
 #let diamond(exp) = $angle.l exp angle.r space$
 #let new(var) = $nu var. space$
 #let reaches = $to(wide *)$
-#let semantic(..elements) = ccs(..elements)
+#let semantic(..elements) = $#ccs(..elements)$
+#let semeta(..elements) = $#semantic(..elements)_eta$
+#let semxs(..elements) = $#ccs(..elements)_(eta [X -> S])$
 #let complete(process) = $"CCmp"(process)$
 
 #let st = $. thin$

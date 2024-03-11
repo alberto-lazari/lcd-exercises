@@ -330,7 +330,6 @@ For this case there are more sub-cases to consider.
   + $ccs(#P1) = ccsP1$
   ]
   $==> ccs(#P) to(tau) ccs(#P1)$, because:
-  // TODO: find out if it's ok to leave the in + out + subst part implicit
   #prooftree(
         axiom(label: $pi_4$, $P_1 to(alpha) P_1^'$),
       rule(label: "ind-(i)", $ccs(P_1) to(ahat) ccs(P_1^')$),
@@ -488,7 +487,6 @@ For this case there are more sub-cases to consider.
 
   + $ccs(#P1) = ccsP1$
   ]
-  // TODO: find out if this is safe to assume
   For simplicity, let's assume that $f(a(n)) = f(a)$.
   This allows for a more concise definition of $f'$:
   $ f' = lambda ahat. hat(f(alpha)) $
@@ -513,7 +511,6 @@ For this case there are more sub-cases to consider.
 
 #let P     = $"if" b "then" P$
 == Case #P
-// TODO: consider avoiding the false case
 For this case there are two sub-cases to consider.
 
 #let P1    = $P'$

@@ -42,7 +42,7 @@
 ])
 
 Let's introduce some definitions first:
-- Let $f_phi (S) = semantic(phi and boxed(Act) X)_(eta [X -> S])$
+- Let $f_phi (S) = semxs(phi and boxed(Act) X)$
 
 - Let $eta(phi) = { P | P satisfies phi }$
 
@@ -113,7 +113,7 @@ $f_phi (s2) = semantic(phi and boxed(Act) X)_(eta [X -> s2]) = eta(phi) sect box
 
 $boxed(Act) s2 = { P | forall alpha in Act st P to(alpha) P' ==> P' in s2 }$
 
-// TODO
+#comment[TODO]
 ...
 
 $==> f_phi (s2) = s2$
@@ -125,44 +125,67 @@ $s2 "fixpoint of" f_phi ==> s2 subset.eq "Fix"(f_phi) = s1 ==> s2 subset.eq s1$
 #pagebreak()
 
 
+#let until-var = $psi or (phi and diamond(Act) upright("T") and boxed(Act) X)$
+#let until-definition = $mu X st #until-var$
+#let until-set = ${ P |
+  forall c in complete(P) st exists i in NN_0 st (
+    c_i satisfies psi and
+    forall j < i st c_j satisfies phi
+  )
+}$
+#let ups = $upsilon(phi, psi)$
+#let func = $f_(ups)$
 == Until (strong)
 
-// See CTr(P) (completed traces) lesson 6, page 4
-- Let $complete(P) : "Proc" -> 2^"CC" quad$ be the set of all the complete computations of $P$ s.t. \
-  $complete(P) = { c in "CC" | P = c_1 }$,
+- Let $eta(phi) = semeta(phi) = semantic(phi) = { P | P satisfies phi }$
+
+- Let $boxed(Act) S = { P | forall alpha in Act st P to(alpha) P' ==> P' in S }$
+
+- Let $ups = #until-var$
+
+#lesson(13, page: 6)
+- Let $func(S) = semxs(ups)$
+
+#comment[See CTr(P) (completed traces): lesson 6 -- page 4]
+- Let $"CCmp" : "Proc" -> 2^"CC" space$ s.t. \
+  $complete(P) = { c in "CC" | P = c_1 } space$ is the set of all the complete computations of $P$,
   where $"CC" = { mat(P_1, P_2, ..., P_n) | P_1 --> P_2 --> ... --> P_n stuck }
     subset.eq  display(union.big_(n in NN_0)) "Proc"^n$
-  
-- Let $"Even"(psi) = mu X st (psi or (diamond(Act) upright("T") and boxed(Act) X))$
-- Let $semantic(#h(0em) "Even"(psi)) = { P | forall c in complete(P) st exists i in NN_0 st c_i satisfies phi }$
 
-#let until-definition = $mu X st (psi or (phi and diamond(Act) upright("T") and boxed(Act) X))$
+- Let $"Even"(psi) = mu X st psi or (diamond(Act) upright("T") and boxed(Act) X)$
+
+- Let $semeta(#h(0em) "Even"(psi)) = { P | forall c in complete(P) st exists i in NN_0 st c_i satisfies psi }$
+
 #box(stroke: 0.5pt, inset: 0.75em, width: 100%)[
   #underline(smallcaps("Exercise")) : #h(.2em) Let's define
 
   #par(first-line-indent: 5em)[
-    $"Until"(phi, psi) = phi until psi = #until-definition$
+    $"Until"(phi, psi) = phi until psi = mu X st ups = #until-definition$
 
-    $"let" #h(2.6em) s1 = semantic(#until-definition)$
+    $"let" #h(2.6em) s1 = semantic(mu X st ups)$
   ]
 
   The set of processes for which $phi until psi$ is satisfied can be directly expressed as
 
   #par(first-line-indent: 8.75em)[
-    $s2 = { P |
-      forall c in complete(P) st exists i in NN_0 st (
-        c_i satisfies psi and
-        forall j < i st c_j satisfies phi
-      )
-    }$
+    $s2 = #until-set$
   ]
 
   Are they really the same?
   #par(first-line-indent: 8.75em)[
     $s1 =^? s2$
 
-    $-> s1 subset.eq s2 : quad s2 "is a fixpoint of" f_phi$
+    $-> s1 subset.eq s2 : quad s2 "is a fixpoint of" func$
 
     $-> s2 subset.eq s1 : quad$by induction on the number $n$ of steps
   ]
 ]
+
+$s1 = semeta(mu X st ups) = "fix"(func)$
+
+=== $s1 subset.eq s2$
+*To prove:* #h(1em) $semeta(mu X st ups) subset.eq #until-set$
+
+
+=== $s1 supset.eq s2$
+*To prove:* #h(1em) $semeta(mu X st ups) supset.eq #until-set$

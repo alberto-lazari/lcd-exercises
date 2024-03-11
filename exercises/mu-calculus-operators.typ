@@ -146,15 +146,13 @@ $s2 "fixpoint of" f_phi ==> s2 subset.eq "Fix"(f_phi) = s1 ==> s2 subset.eq s1$
 #lesson(13, page: 6)
 - Let $func(S) = semxs(ups)$
 
-#comment[See CTr(P) (completed traces): lesson 6 -- page 4]
+- Let $"CC" = { mat(P_1, P_2, ..., P_n) | P_1 --> P_2 --> ... --> P_n stuck }
+    subset.eq  display(union.big_(i in NN_0)) "Proc"^i$ \
+  be the set of all the complete computations of any process
+
+#comment[See $"CTr"(P)$ (completed traces): lesson 6 -- page 4]
 - Let $"CCmp" : "Proc" -> 2^"CC" space$ s.t. \
-  $complete(P) = { c in "CC" | P = c_1 } space$ is the set of all the complete computations of $P$,
-  where $"CC" = { mat(P_1, P_2, ..., P_n) | P_1 --> P_2 --> ... --> P_n stuck }
-    subset.eq  display(union.big_(n in NN_0)) "Proc"^n$
-
-- Let $"Even"(psi) = mu X st psi or (diamond(Act) upright("T") and boxed(Act) X)$
-
-- Let $semeta(#h(0em) "Even"(psi)) = { P | forall c in complete(P) st exists i in NN_0 st c_i satisfies psi }$
+  $complete(P) = { c in "CC" | P = c_1 } space$ is the set of all the complete computations of $P$
 
 #box(stroke: 0.5pt, inset: 0.75em, width: 100%)[
   #underline(smallcaps("Exercise")) : #h(.2em) Let's define
@@ -184,8 +182,37 @@ $s2 "fixpoint of" f_phi ==> s2 subset.eq "Fix"(f_phi) = s1 ==> s2 subset.eq s1$
 $s1 = semeta(mu X st ups) = "fix"(func)$
 
 === $s1 subset.eq s2$
-*To prove:* #h(1em) $semeta(mu X st ups) subset.eq #until-set$
+*To prove:* #h(.5em) $semeta(mu X st ups) subset.eq #until-set$
+
+$s1 = "fix"(func) \
+  #comment[$s1$ is the lfp $==>$ it is a subset of every fixed point of $func$] \
+  ==> forall S subset.eq "Proc" st ( func(S) = S ==> s1 subset.eq S ) \
+  #comment[In particular, if $s2$ is a fixed point of $func$ it is a superset of $s1$] \
+  ==> ( func(s2) = s2 ==> s1 subset.eq s2 )$
+
+#comment[Remember, $func(S) = semxs(#until-var)$]
+
+$s2$ is a fixed point of $func$, in fact:
+
+$s2 &= #until-set =$
+
+#comment[$P satisfies psi$, otherwise it has to be that $P satisfies phi$ and it does at least a step]
+#comment[All the complete computations of the next steps respect the same property]
+$= { P | &
+  P satisfies psi or (P satisfies phi and
+  forall mat(P, c', augment: #1) in complete(P) st ell(c') > 0 and \
+    & exists i in NN_0 st (
+    c'_i satisfies psi and
+    forall j < i st c'_j satisfies phi
+  ))
+} =$
+
+$= semeta(psi) union (
+  semeta(phi) sect
+  { P | exists P --> P' st P' in "Proc" } sect
+  ...
+)$
 
 
-=== $s1 supset.eq s2$
-*To prove:* #h(1em) $semeta(mu X st ups) supset.eq #until-set$
+// === $s1 supset.eq s2$
+// *To prove:* #h(.5em) $semeta(mu X st ups) supset.eq #until-set$

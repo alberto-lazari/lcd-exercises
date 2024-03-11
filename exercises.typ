@@ -12,6 +12,9 @@
   set text(size: 1.3em)
   it
 }
+
+#set math.mat(delim: "[")
+
 #pagebreak()
 
 #include "exercises/ccs-vp.typ"

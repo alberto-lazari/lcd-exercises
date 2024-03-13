@@ -1,5 +1,19 @@
 #import "/common.typ": *
 
+#show heading.where(level: 3): it => {
+  v(.5em)
+  set text(size: .9em)
+  box(inset: 1em, stroke: .5pt, it)
+  v(.5em)
+}
+#show heading.where(level: 4): it => {
+  $bullet space it$
+  parbreak()
+  v(.5em)
+}
+
+= Exercise G
+
 #let until-var = $psi or (phi and diamond(Act) upright("T") and boxed(Act) X)$
 #let until-definition = $mu X st #until-var$
 #let until-set = ${ P |
@@ -50,7 +64,7 @@
 
     $-> s1 subset.eq s2 : quad s2 "is a fixpoint of" func$
 
-    $-> s2 subset.eq s1 : quad$by induction on the number $n$ of steps
+    $-> s2 subset.eq s1 : quad$by induction on $n$ in $f_ups^n (empty)$
   ]
 ]
 
@@ -139,7 +153,7 @@ Let $R_n = { P | forall c in complete(P) st
 }$ s.t.
 $space display(lim_(n -> infinity)) R_n = s2$
 
-By proving
+Assuming
 #numeq($forall n in NN st R_n subset.eq f_ups^n (empty)$) <R-fix>
 
 By @func-fix and @R-fix
@@ -234,9 +248,9 @@ $==> R_(n + 1) &= { P | P satisfies psi or (
 &= semantic(psi or (phi and diamond(Act) upright("T") and boxed(Act) X))_(eta [X -> R_n]) = f_ups (R_n)
 $
 
-#comment[There's probably some theorem involved here]
-By $pi_1$
-$ R_n subset.eq f_ups^n (empty) space ==>^? space
+Because $f_ups$ is monotone, by $pi_1$ (inductive hypothesis)
+$ R_n subset.eq f_ups^n (empty)
+space ==> space
 f_ups (R_n) subset.eq f_ups (f_ups^n (empty)) = f_ups^(n + 1) (empty)
 $
 

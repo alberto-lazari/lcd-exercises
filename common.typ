@@ -13,6 +13,10 @@
 // Comment-style lesson number annotation (# Lesson n – page m)
 #let lesson(page: none, number) = comment[Lesson #number -- page #page]
 
+#let numeq(equation) = {
+  math.equation(block: true, numbering: "(1)", equation)
+}
+
 // CCS stuff
 #let ccs(..elements) = {
   let exp = $space$
@@ -77,6 +81,13 @@
 #let s1 = $S_1$
 #let s2 = $S_2$
 #let Act = $"Act"$
+#let st = $. thin$
+#let satisfies = $tack.r.double$
+#let until = $space cal(U) space$
+#let weak = $space cal(W) space$
+#let exists = $exists thin$
+#let forall = $forall thin$
+#let empty = $Ø$
 
 #let boxed(exp) = $[exp] space$
 #let diamond(exp) = $angle.l exp angle.r space$
@@ -87,10 +98,3 @@
 #let semxs(..elements) = $#ccs(..elements)_(eta [X -> S])$
 #let semxs2(..elements) = $#ccs(..elements)_(eta [X -> s2])$
 #let complete(process) = $"CCmp"(process)$
-
-#let st = $. thin$
-#let satisfies = $tack.r.double$
-#let until = $space cal(U) space$
-#let weak = $space cal(W) space$
-#let exists = $exists thin$
-#let forall = $forall thin$

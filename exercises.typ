@@ -15,6 +15,7 @@
 
 #set math.mat(delim: "[")
 
+// Set equation reference: (1)
 #show ref: it => {
   let eq = math.equation
   let el = it.element

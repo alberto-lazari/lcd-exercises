@@ -3,7 +3,7 @@
 #let until-var = $psi or (phi and diamond(Act) upright("T") and boxed(Act) X)$
 #let until-definition = $mu X st #until-var$
 #let until-set = ${ P |
-  forall c in complete(P) st exists i in NN_0 st (
+  forall c in complete(P) st exists i in NN st (
     c_i satisfies psi and
     forall j < i st c_j satisfies phi
   )
@@ -22,7 +22,7 @@
 - Let $func(S) = semxs(ups)$
 
 - Let $"CC" = { mat(P_1, P_2, ..., P_n) | P_1 --> P_2 --> ... --> P_n stuck }
-    subset.eq  display(union.big_(i in NN_0)) "Proc"^i$ \
+    subset.eq  display(union.big_(i in NN)) "Proc"^i$ \
   be the set of all the complete computations of any process
 
 #comment[See $"CTr"(P)$ (completed traces): lesson 6 -- page 4]
@@ -54,45 +54,47 @@
   ]
 ]
 
-$s1 = semeta(mu X st ups) = "fix"(func)$
+#lesson(13, page: 6)
+By the definition of the semantics of $semeta(mu X. phi)$
+#numeq($s1 = semeta(mu X st ups) = "fix"(func)$) <mu-sem>
 
 === $s1 subset.eq s2$
 *To prove:* #h(.5em) $semeta(mu X st ups) subset.eq #until-set$
 
-$s1 = "fix"(func)$
-
 #comment[$s1$ is the lfp $==>$ it is a subset of every fixed point of $func$]
-$==> forall S subset.eq "Proc" st ( func(S) = S ==> s1 subset.eq S )$
+@mu-sem $space ==> space
+forall S subset.eq "Proc" st ( func(S) = S quad ==> quad s1 subset.eq S )$
 
 In particular, this holds for $s2$:
-#math.equation(block: true, numbering: "(1)",
-  $func(s2) = s2 ==> s1 subset.eq s2$
-) <lfp>
+#numeq($func(s2) = s2 quad ==> quad s1 subset.eq s2$) <lfp>
 
 #comment[Remember, $func(S) = semxs(#until-var)$]
 
 $s2$ is a fixed point of $func$, in fact:
 
-$s2 &= #until-set =$
+$s2 = #until-set =$
 
-#comment[$P satisfies psi$, otherwise it has to be that $P satisfies phi$ and it does at least a step]
-#comment[All the complete computations of the next steps respect the same property]
-$= { P | & P satisfies psi or (
-  P satisfies phi and
-  exists P' in "Proc" st P --> P' and
-  forall P --> P' st \
-    & forall c in complete(P') st exists i in NN_0 st (
-      c_i satisfies psi and
-      forall j < i st c_j satisfies phi
-    )
-)}$
+#par(first-line-indent: 1.40em)[
+  #comment[$P satisfies psi$, otherwise it has to be that $P satisfies phi$ and it does at least a step]
+  #comment[All the complete computations of the next steps respect the same property]
+  $= { P | & P satisfies psi or (
+    P satisfies phi and
+    exists P' in "Proc" st P --> P' and
+    forall P --> P' st \
+      & forall c in complete(P') st exists i in NN st (
+        c_i satisfies psi and
+        forall j < i st c_j satisfies phi
+      )
+  )}$
+]
 
-Note that $space forall c in complete(P') st exists i in NN_0 st (
+Note that
+$ forall c in complete(P') st exists i in NN st (
   c_i satisfies psi and
   forall j < i st c_j satisfies phi
 )
-space <==> space
-P' in s2$
+quad <==> quad
+P' in s2 $
 
 $==>
 s2 &= { P | P satisfies psi or (
@@ -103,21 +105,19 @@ s2 &= { P | P satisfies psi or (
 
 &= semeta(psi) union (
   semeta(phi) sect
-  semeta(diamond(Act) T) sect
+  semeta(diamond(Act) upright("T")) sect
   semxs2(boxed(Act) X)
 ) = \
 
-&= semxs2(psi or (phi and diamond(Act) T and boxed(Act) X)) = func(s2)
+&= semxs2(psi or (phi and diamond(Act) upright("T") and boxed(Act) X)) = func(s2)
 $
 
 Which is equivalent to
-#math.equation(block: true, numbering: "(1)",
-  $func(s2) = s2$
-) <fixpoint>
+#numeq($func(s2) = s2$) <fixpoint>
 
 From @lfp:
 #math.equation(block: true)[
-  @fixpoint $==> s1 subset.eq s2$
+  @fixpoint $quad ==> quad s1 subset.eq s2$
 ]
 
 #align(right, $qed$)
@@ -126,3 +126,55 @@ From @lfp:
 
 === $s1 supset.eq s2$
 *To prove:* #h(.5em) $semeta(mu X st ups) supset.eq #until-set$
+
+#lesson(13, page: 6)
+For finite state processes it holds that
+#numeq($forall n in N st f_ups^n (empty) subset.eq "fix"(func) = s1$) <func-fix>
+
+Let $R_n = { P | forall c in complete(P) st
+  exists i lt.eq.slant n st (
+    c_i satisfies psi and
+    forall j < i st c_j satisfies phi
+  )
+}$ s.t.
+$space display(lim_(n -> infinity)) R_n = s2$
+
+By proving
+#numeq($forall n in NN st R_n subset.eq f_ups^n (empty)$) <R-fix>
+
+By @func-fix and @R-fix
+$ space forall n in NN st R_n subset.eq f_ups^n (empty) subset.eq s1
+quad ==> quad
+
+forall n in NN st R_n subset.eq s1
+quad ==> quad
+s2 subset.eq s1
+$
+
+Let's prove @R-fix by induction on $n in NN$:
+
+==== Case $n = 1$
+Let's prove
+$space R_1 subset.eq f_ups (empty)$
+
+$R_1 &= { P | forall c in complete(P) st
+  exists i lt.eq.slant 1 st (
+    c_1 satisfies psi and
+    forall j < i st c_j satisfies phi
+  )
+} = \
+
+&= { P | forall c in complete(P) st c_1 satisfies psi } =
+{ P | P satisfies psi } =
+semeta(psi)
+$
+
+$f_ups (empty) &= semantic(ups)_(eta [X -> empty]) =
+semantic(#until-var)_(eta [X -> empty]) = \
+
+&= semeta(psi) union semantic(
+  phi and diamond(Act) upright("T") and boxed(Act) X
+)_(eta [X -> empty])
+space supset.eq space
+semeta(psi) = R_1
+$

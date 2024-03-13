@@ -88,6 +88,7 @@
 #let exists = $exists thin$
 #let forall = $forall thin$
 #let empty = $Ø$
+#let Proc = $"Proc"$
 
 #let boxed(exp) = $[exp] space$
 #let diamond(exp) = $angle.l exp angle.r space$

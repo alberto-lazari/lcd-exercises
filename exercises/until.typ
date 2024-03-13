@@ -22,11 +22,11 @@
 - Let $func(S) = semxs(ups)$
 
 - Let $"CC" = { mat(P_1, P_2, ..., P_n) | P_1 --> P_2 --> ... --> P_n stuck }
-    subset.eq  display(union.big_(i in NN)) "Proc"^i$ \
+    subset.eq  display(union.big_(i in NN)) Proc^i$ \
   be the set of all the complete computations of any process
 
 #comment[See $"CTr"(P)$ (completed traces): lesson 6 -- page 4]
-- Let $"CCmp" : "Proc" -> 2^"CC" space$ s.t. \
+- Let $"CCmp" : Proc -> 2^"CC" space$ s.t. \
   $complete(P) = { c in "CC" | P = c_1 } space$ is the set of all the complete computations of $P$
 
 #box(stroke: 0.5pt, inset: 0.75em, width: 100%)[
@@ -63,7 +63,7 @@ By the definition of the semantics of $semeta(mu X. phi)$
 
 #comment[$s1$ is the lfp $==>$ it is a subset of every fixed point of $func$]
 @mu-sem $space ==> space
-forall S subset.eq "Proc" st ( func(S) = S quad ==> quad s1 subset.eq S )$
+forall S subset.eq Proc st ( func(S) = S quad ==> quad s1 subset.eq S )$
 
 In particular, this holds for $s2$:
 #numeq($func(s2) = s2 quad ==> quad s1 subset.eq s2$) <lfp>
@@ -79,7 +79,7 @@ $s2 = #until-set =$
   #comment[All the complete computations of the next steps respect the same property]
   $= { P | & P satisfies psi or (
     P satisfies phi and
-    exists P' in "Proc" st P --> P' and
+    exists P' in Proc st P --> P' and
     forall P --> P' st \
       & forall c in complete(P') st exists i in NN st (
         c_i satisfies psi and
@@ -99,7 +99,7 @@ P' in s2 $
 $==>
 s2 &= { P | P satisfies psi or (
   P satisfies phi and
-  exists P' in "Proc" st P --> P' and
+  exists P' in Proc st P --> P' and
   forall P --> P' st P' in s2
 )} = \
 
@@ -159,9 +159,14 @@ $space R_1 subset.eq f_ups (empty)$
 
 $R_1 &= { P | forall c in complete(P) st
   exists i lt.eq.slant 1 st (
-    c_1 satisfies psi and
+    c_i satisfies psi and
     forall j < i st c_j satisfies phi
   )
+} = \
+
+&= { P | forall c in complete(P) st
+  c_1 satisfies psi and
+  forall j < 1 st c_j satisfies phi
 } = \
 
 &= { P | forall c in complete(P) st c_1 satisfies psi } =
@@ -178,3 +183,63 @@ semantic(#until-var)_(eta [X -> empty]) = \
 space supset.eq space
 semeta(psi) = R_1
 $
+
+==== Case $n ==> n + 1$
+Assuming
+#pi-enum[
++ $R_n subset.eq f_ups^n (empty)$
+]
+
+Let's prove
+$space R_(n + 1) subset.eq f_ups^(n + 1) (empty)$
+
+$R_(n + 1) &= { P | & forall c in complete(P) st
+  exists i lt.eq.slant n + 1 st (
+    c_i satisfies psi and
+    forall j < i st c_j satisfies phi
+  )
+} = \
+
+&= { P | & P satisfies psi or (
+  P satisfies phi and
+  exists P' in Proc st P --> P' and
+  forall P --> P' st
+    forall c in complete(P') st exists i lt.eq.slant n st ( \
+      && c_i satisfies psi and
+      forall j < i st c_j satisfies phi
+    )
+)}
+$
+
+Note that
+$ forall c in complete(P') st exists i lt.eq.slant n st (
+  c_i satisfies psi and
+  forall j < i st c_j satisfies phi
+)
+quad <==> quad
+P' in R_n $
+
+$==> R_(n + 1) &= { P | P satisfies psi or (
+  P satisfies phi and
+  exists P' in Proc st P --> P' and
+  forall P --> P' st P' in R_n
+)} = \
+
+&= semeta(psi) union (
+  semeta(phi) sect
+  semeta(diamond(Act) upright("T")) sect
+  semantic(boxed(Act) X)_(eta [X -> R_n])
+) = \
+
+&= semantic(psi or (phi and diamond(Act) upright("T") and boxed(Act) X))_(eta [X -> R_n]) = f_ups (R_n)
+$
+
+#comment[There's probably some theorem involved here]
+By $pi_1$
+$ R_n subset.eq f_ups^n (empty) space ==>^? space
+f_ups (R_n) subset.eq f_ups (f_ups^n (empty)) = f_ups^(n + 1) (empty)
+$
+
+$ ==> R_(n + 1) subset.eq f_ups^(n + 1) (empty) $
+
+#align(right, $qed$)

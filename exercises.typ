@@ -15,6 +15,21 @@
 
 #set math.mat(delim: "[")
 
+#show ref: it => {
+  let eq = math.equation
+  let el = it.element
+  if el != none and el.func() == eq {
+    // Override equation references.
+    numbering(
+      el.numbering,
+      ..counter(eq).at(el.location())
+    )
+  } else {
+    // Other references as usual.
+    it
+  }
+}
+
 #pagebreak()
 
 #include "exercises/ccs-vp.typ"

@@ -74,6 +74,10 @@
 
 
 // Mu-calculus stuff
+#let s1 = $S_1$
+#let s2 = $S_2$
+#let Act = $"Act"$
+
 #let boxed(exp) = $[exp] space$
 #let diamond(exp) = $angle.l exp angle.r space$
 #let new(var) = $nu var. space$
@@ -81,6 +85,7 @@
 #let semantic(..elements) = $#ccs(..elements)$
 #let semeta(..elements) = $#semantic(..elements)_eta$
 #let semxs(..elements) = $#ccs(..elements)_(eta [X -> S])$
+#let semxs2(..elements) = $#ccs(..elements)_(eta [X -> s2])$
 #let complete(process) = $"CCmp"(process)$
 
 #let st = $. thin$
@@ -89,7 +94,3 @@
 #let weak = $space cal(W) space$
 #let exists = $exists thin$
 #let forall = $forall thin$
-
-#let s1 = $S_1$
-#let s2 = $S_2$
-#let Act = $"Act"$

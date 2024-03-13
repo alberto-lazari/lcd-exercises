@@ -637,3 +637,5 @@ $==>$ vacuously true
     rule(label: (left: "constant", right: $pi_1, pi_2$), $#P to(alpha) #P1$),
   )
 ]
+
+#align(right, $qed$)
